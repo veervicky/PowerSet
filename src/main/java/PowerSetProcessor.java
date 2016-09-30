@@ -19,17 +19,24 @@ public class PowerSetProcessor {
      */
     public static void main(String[] args) {
         File inputFile = null;
+        File outputFile = null;
         if (args.length > 0) {
             inputFile = new File(args[0]);
+            if (args.length > 1) {
+                outputFile = new File(args[1]);
+            }
             if (!inputFile.exists()) {
                 System.out.println(PowerSetHelper.INVALID_FILE_PATH_STRING);
             } else {
+                if (outputFile == null) {
+                    outputFile = new File(PowerSetHelper.DEFAULT_OUTPUT_FILE_NAME);
+                }
                 try {
                     List<Integer> inputSetList = PowerSetHelper.parseInputSet(args[0], false);
                     String outputContent = PowerSetHelper.getPowerSetContent(inputSetList);
-                    PowerSetHelper.writePowerSet("output.txt", outputContent);
+                    PowerSetHelper.writePowerSet(outputFile.getAbsolutePath(), outputContent);
                 } catch (PowerSetException pse) {
-                    pse.printStackTrace();;
+                    pse.printStackTrace();
                 }
             }
         } else {

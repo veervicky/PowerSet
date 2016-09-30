@@ -1,7 +1,7 @@
 # powerset
 A maven and JUnit tested project that calculates power set of a given set.
 
-Usage: java -jar PowerSet-1.0-jar-with-dependencies.jar <input-file-path>
+Usage: java -jar PowerSet-1.0-jar-with-dependencies.jar <input_file_path> <output_file_path(optional)>
 
 Sample Input File contents: {1,2,3}
 Sample Output File contents: { }

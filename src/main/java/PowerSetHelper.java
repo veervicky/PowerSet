@@ -20,10 +20,10 @@ public class PowerSetHelper {
     public static final String IO_EXCEPTION_READING_FILE_STRING = "IOException: Reading a File";
     public static final String OUTPUT_FILE_ERROR_STRING = "Unable to create output file";
     public static final String IO_EXCEPTION_OUTPUT_FILE_STRING = "IOException: Writing output file";
-    public static final String IO_EXCEPTION_CLOSING_BW_STRING = "IOException: Unable to close BufferWriter";
 
-    public static final String HELP_MESSAGE_STRING = "Usage: java -jar PowerSet-1.0-jar-with-dependencies.jar <input_file_path>\n";
-    public static final String INVALID_FILE_PATH_STRING = "Please check input file path\n";
+    public static final String HELP_MESSAGE_STRING = "Usage: java -jar PowerSet-1.0-jar-with-dependencies.jar <input_file_path> <output_file_path(optional)>";
+    public static final String INVALID_FILE_PATH_STRING = "Please check input file path";
+    public static final String DEFAULT_OUTPUT_FILE_NAME = "output.txt";
 
     /**
      * Parses the Input set from an input file or from a resource file
@@ -38,7 +38,7 @@ public class PowerSetHelper {
         File inputFile = null;
         try {
             if (isResourceFile) {
-                ClassLoader classLoader = new PowerSetHelper().getClass().getClassLoader();
+                ClassLoader classLoader = PowerSetHelper.class.getClassLoader();
                 inputFile = new File(classLoader.getResource(filePath).getFile());
             } else {
                 inputFile = new File(filePath);
@@ -145,7 +145,7 @@ public class PowerSetHelper {
                 try {
                     outputBufferWriter.close();
                 } catch (IOException e) {
-                    throw new PowerSetException(IO_EXCEPTION_CLOSING_BW_STRING, e);
+                    e.printStackTrace();
                 }
             }
         }

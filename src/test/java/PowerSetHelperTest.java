@@ -74,7 +74,7 @@ public class PowerSetHelperTest {
     public void testUsageHelpMessage() throws PowerSetException {
         String[] nullArgs = {};
         PowerSetProcessor.main(nullArgs);
-        Assert.assertEquals(PowerSetHelper.HELP_MESSAGE_STRING, outContent.toString());
+        Assert.assertEquals(PowerSetHelper.HELP_MESSAGE_STRING, outContent.toString().trim());
     }
 
     /**
@@ -87,6 +87,6 @@ public class PowerSetHelperTest {
     public void testInvalidPath() throws PowerSetException {
         String[] invalidFilePath = {"abc.txt"};
         PowerSetProcessor.main(invalidFilePath);
-        Assert.assertEquals(PowerSetHelper.INVALID_FILE_PATH_STRING, outContent.toString());
+        Assert.assertEquals(PowerSetHelper.INVALID_FILE_PATH_STRING, outContent.toString().trim());
     }
 }
