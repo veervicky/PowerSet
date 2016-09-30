@@ -11,11 +11,19 @@ import java.util.*;
  */
 public class PowerSetHelper {
 
-    public static List<Integer> parseInputSet(String filePath, Boolean isTestFile) {
+    /**
+     * Parses the Input set from an input file or from a resource file
+     *
+     * @param filePath
+     * @param isResourceFile
+     * @return
+     * @throws PowerSetException
+     */
+    public static List<Integer> parseInputSet(String filePath, Boolean isResourceFile) throws PowerSetException {
         //Get file from resources folder
         File inputFile = null;
         try {
-            if (isTestFile) {
+            if (isResourceFile) {
                 ClassLoader classLoader = new PowerSetHelper().getClass().getClassLoader();
                 inputFile = new File(classLoader.getResource(filePath).getFile());
             } else {
@@ -38,13 +46,21 @@ public class PowerSetHelper {
         //parsing "1,2,3" from a file format of "{1,2,3}"
         String[] setStringArray = line.split("\\{")[1].split("\\}")[0].split(",");
         List<Integer> integerList = new ArrayList<Integer>();
-        for(String number: setStringArray) {
+        for (String number : setStringArray) {
             integerList.add(Integer.parseInt(number));
         }
         return integerList;
     }
 
-    public static String prepareSinglePowerSet(BitSet bs, List<Integer> list) {
+    /**
+     * Prepares Power set string in the proper format for a given bit set corresponding to the input list.
+     *
+     * @param bitSet
+     * @param list
+     * @return
+     * @throws PowerSetException
+     */
+    public static String prepareSinglePowerSet(BitSet bitSet, List<Integer> list) throws PowerSetException {
         // check to see if the list is null
         if (list == null) {
             throw new PowerSetException("Empty Input Set");
@@ -52,7 +68,7 @@ public class PowerSetHelper {
 
         StringBuilder stringBuilder = new StringBuilder("{ ");
         for (int i = 0; i < list.size(); i++) {
-            if (bs.get(i)) {
+            if (bitSet.get(i)) {
                 // adding "," after each integer
                 stringBuilder.append(list.get(i)).append(",");
             }
@@ -63,7 +79,15 @@ public class PowerSetHelper {
         return stringBuilder.toString();
     }
 
-    public static String getPowerSetContent(List<Integer> list) {
+    /**
+     * It calculates Power set for all possible combinations given an input list.
+     * It also assemble the final Content to be written on the output file.
+     *
+     * @param list
+     * @return
+     * @throws PowerSetException
+     */
+    public static String getPowerSetContent(List<Integer> list) throws PowerSetException {
         // maximum number of combinations possible for n items is 2^n.
         long max = (long) Math.pow(2, list.size());
         StringBuilder powerSetContentBuffer = new StringBuilder();
@@ -77,13 +101,22 @@ public class PowerSetHelper {
         return powerSetContentBuffer.toString();
     }
 
+    /**
+     * This method writes the power set to the output file.
+     * 1) Checks if file exists otherwise creates it. Throws Exception if unable to create output file.
+     * 2) Writes to the file and closes all open resources cleanly.
+     *
+     * @param filePath
+     * @param content
+     * @throws PowerSetException
+     */
     public static void writePowerSet(String filePath, String content) throws PowerSetException {
         File file = new File(filePath);
         BufferedWriter outputBufferWriter = null;
         try {
             // if file doesnt exists, then create it else throw power set exception.
             if (!file.exists()) {
-                if(!file.createNewFile()) {
+                if (!file.createNewFile()) {
                     throw new PowerSetException("Unable to create output file");
                 }
             }
@@ -94,11 +127,11 @@ public class PowerSetHelper {
         } catch (IOException e) {
             throw new PowerSetException("IO exception in writing output file", e);
         } finally {
-            if(outputBufferWriter != null) {
+            if (outputBufferWriter != null) {
                 try {
                     outputBufferWriter.close();
                 } catch (IOException e) {
-                    throw new PowerSetException("IOException: Unable to close BufferWriter",e);
+                    throw new PowerSetException("IOException: Unable to close BufferWriter", e);
                 }
             }
         }

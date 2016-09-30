@@ -16,11 +16,9 @@ public class PowerSetHelperTest {
 
     @Test
     public void testInputSetParsing() throws PowerSetException {
-        String testFileName = "JunitTestFile1";
-        //StringBuffer filePathBuffer = new StringBuffer(System.getProperty("user.dir")).append(File.separator).append("src").append(testFileName);
+        String testFileName = "JunitTestFile1.txt";
         List<Integer> integerSet = PowerSetHelper.parseInputSet(testFileName, true);
         Assert.assertEquals(integerSet, testIntList);
-        //System.out.println(Arrays.toString(integerSet.toArray()));
     }
 
     @Test
@@ -28,17 +26,9 @@ public class PowerSetHelperTest {
         BitSet bitSetofNumber = BitSet.valueOf(new long[] {7});
         String singlePowerSetString = PowerSetHelper.prepareSinglePowerSet(bitSetofNumber,testIntList);
         Assert.assertEquals("{ 1,2,3 }", singlePowerSetString);
-        //System.out.println(singlePowerSetString);
     }
 
     @Test
     public void testPrintSubsets() throws PowerSetException {
-        List<Integer> integerList = new ArrayList<Integer>(5);
-        integerList.add(1);
-        integerList.add(2);
-        integerList.add(3);
-        //integerList.add(4);
-        //integerList.add(5);
-        PowerSetHelper.getPowerSetContent(integerList);
     }
 }

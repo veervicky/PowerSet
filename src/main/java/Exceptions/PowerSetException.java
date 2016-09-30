@@ -3,7 +3,11 @@ package Exceptions;
 /**
  * Created by Vicky on 28/09/16.
  */
-public class PowerSetException extends RuntimeException {
+
+/**
+ * A base wrapper Exception class to wrap all exceptions occuring in Power Set project.
+ */
+public class PowerSetException extends Exception {
 
     public PowerSetException() {
     }
