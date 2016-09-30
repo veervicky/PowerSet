@@ -11,6 +11,20 @@ import java.util.*;
  */
 public class PowerSetHelper {
 
+    public static final String START_CURLY_BRACKETS_STRING = "{ ";
+    public static final String END_CURLY_BRACKETS_STRING = " }";
+    public static final String COMMA_STRING = ",";
+    public static final String NULL_POINTER_EXCEPTION_STRING = "Null Pointer Exception";
+    public static final String EMPTY_INPUT_SET_STRING = "Empty Input Set";
+    public static final String EXCEPTION_READING_FILE_STRING = "Exception: Reading a File";
+    public static final String IO_EXCEPTION_READING_FILE_STRING = "IOException: Reading a File";
+    public static final String OUTPUT_FILE_ERROR_STRING = "Unable to create output file";
+    public static final String IO_EXCEPTION_OUTPUT_FILE_STRING = "IOException: Writing output file";
+    public static final String IO_EXCEPTION_CLOSING_BW_STRING = "IOException: Unable to close BufferWriter";
+
+    public static final String HELP_MESSAGE_STRING = "Usage: java -jar PowerSet-1.0-jar-with-dependencies.jar <input_file_path>\n";
+    public static final String INVALID_FILE_PATH_STRING = "Please check input file path\n";
+
     /**
      * Parses the Input set from an input file or from a resource file
      *
@@ -30,9 +44,9 @@ public class PowerSetHelper {
                 inputFile = new File(filePath);
             }
         } catch (NullPointerException ne) {
-            throw new PowerSetException("Null Pointer Exception", ne);
+            throw new PowerSetException(NULL_POINTER_EXCEPTION_STRING, ne);
         } catch (Exception e) {
-            throw new PowerSetException("Exception thrown!!", e);
+            throw new PowerSetException(EXCEPTION_READING_FILE_STRING, e);
         }
 
         String line = null;
@@ -41,7 +55,7 @@ public class PowerSetHelper {
             line = scanner.nextLine();
             scanner.close();
         } catch (IOException e) {
-            throw new PowerSetException("IOException", e);
+            throw new PowerSetException(IO_EXCEPTION_READING_FILE_STRING, e);
         }
         //parsing "1,2,3" from a file format of "{1,2,3}"
         String[] setStringArray = line.split("\\{")[1].split("\\}")[0].split(",");
@@ -63,19 +77,19 @@ public class PowerSetHelper {
     public static String prepareSinglePowerSet(BitSet bitSet, List<Integer> list) throws PowerSetException {
         // check to see if the list is null
         if (list == null) {
-            throw new PowerSetException("Empty Input Set");
+            throw new PowerSetException(EMPTY_INPUT_SET_STRING);
         }
 
-        StringBuilder stringBuilder = new StringBuilder("{ ");
+        StringBuilder stringBuilder = new StringBuilder(START_CURLY_BRACKETS_STRING);
         for (int i = 0; i < list.size(); i++) {
             if (bitSet.get(i)) {
                 // adding "," after each integer
-                stringBuilder.append(list.get(i)).append(",");
+                stringBuilder.append(list.get(i)).append(COMMA_STRING);
             }
         }
         //removing last "," for proper formatting
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        stringBuilder.append(" }");
+        stringBuilder.append(END_CURLY_BRACKETS_STRING);
         return stringBuilder.toString();
     }
 
@@ -117,7 +131,7 @@ public class PowerSetHelper {
             // if file doesnt exists, then create it else throw power set exception.
             if (!file.exists()) {
                 if (!file.createNewFile()) {
-                    throw new PowerSetException("Unable to create output file");
+                    throw new PowerSetException(OUTPUT_FILE_ERROR_STRING);
                 }
             }
             FileWriter outputFileWriter = new FileWriter(file.getAbsoluteFile());
@@ -125,13 +139,13 @@ public class PowerSetHelper {
             outputBufferWriter.write(content);
             outputBufferWriter.close();
         } catch (IOException e) {
-            throw new PowerSetException("IO exception in writing output file", e);
+            throw new PowerSetException(IO_EXCEPTION_OUTPUT_FILE_STRING, e);
         } finally {
             if (outputBufferWriter != null) {
                 try {
                     outputBufferWriter.close();
                 } catch (IOException e) {
-                    throw new PowerSetException("IOException: Unable to close BufferWriter", e);
+                    throw new PowerSetException(IO_EXCEPTION_CLOSING_BW_STRING, e);
                 }
             }
         }

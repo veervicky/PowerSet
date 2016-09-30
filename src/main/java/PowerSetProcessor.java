@@ -7,6 +7,7 @@ import java.util.List;
  * Created by Vicky on 29/09/16.
  */
 public class PowerSetProcessor {
+
     /**
      * Main class: Entry point of the program.
      * 1) It takes in the input file path from command line
@@ -21,7 +22,7 @@ public class PowerSetProcessor {
         if (args.length > 0) {
             inputFile = new File(args[0]);
             if (!inputFile.exists()) {
-                System.out.println("Please check input file path");
+                System.out.println(PowerSetHelper.INVALID_FILE_PATH_STRING);
             } else {
                 try {
                     List<Integer> inputSetList = PowerSetHelper.parseInputSet(args[0], false);
@@ -32,7 +33,7 @@ public class PowerSetProcessor {
                 }
             }
         } else {
-            System.out.println("Usage: java -jar PowerSet-1.0-jar-with-dependencies.jar <input_file_path>");
+            System.out.println(PowerSetHelper.HELP_MESSAGE_STRING);
         }
     }
 }
